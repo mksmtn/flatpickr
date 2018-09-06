@@ -331,7 +331,7 @@ export const defaults: ParsedOptions = {
     typeof window === "object" &&
     window.navigator.userAgent.indexOf("MSIE") === -1,
   ariaDateFormat: "F j, Y",
-  clickBehaviour: "open",
+  clickBehaviour: "toggle",
   closeOnSelect: true,
   conjunction: ", ",
   dateFormat: "Y-m-d",

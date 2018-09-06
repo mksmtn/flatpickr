@@ -429,13 +429,7 @@ function FlatpickrInstance(
     else bind(window.document, "mousedown", onClick(documentClick));
     bind(window.document, "focus", documentClick, { capture: true });
 
-    if (self.config.clickBehaviour === "open") {
-      bind(self._input, "focus", self.open);
-      bind(self._input, "mousedown", onClick(self.open));
-    } else if (self.config.clickBehaviour === "toggle") {
-      bind(self._input, "focus", self.toggle);
-      bind(self._input, "mousedown", onClick(self.toggle));
-    }
+    setupClickBehaviour();
 
     if (self.daysContainer !== undefined) {
       bind(self.monthNav, "mousedown", onClick(onMonthNavClick));
@@ -1954,6 +1948,16 @@ function FlatpickrInstance(
     triggerEvent("onParseConfig");
   }
 
+  function setupClickBehaviour() {
+    if (self.config.clickBehaviour === "open") {
+      // bind(self._input, "focus", self.open);
+      // bind(self._input, "mousedown", onClick(self.open));
+    } else if (self.config.clickBehaviour === "toggle") {
+      bind(self._input, "focus", self.open);
+      bind(self._input, "mousedown", self.toggle);
+    }
+  }
+
   function setupLocale() {
     if (
       typeof self.config.locale !== "object" &&
@@ -2154,6 +2158,7 @@ function FlatpickrInstance(
   const CALLBACKS: { [k in keyof Options]: Function[] } = {
     locale: [setupLocale, updateWeekdays],
     showMonths: [buildMonths, setCalendarWidth, buildWeekdays],
+    clickBehaviour: [setupClickBehaviour],
   };
 
   function set<K extends keyof Options>(
